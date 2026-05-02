@@ -2,6 +2,12 @@
 
 Always-on engineering operations agent for SpeakerAgent.ai.
 
+Public repo:
+
+```text
+https://github.com/jbellsolutions/speakeragent-ops-agent
+```
+
 This repo gives Lester a safe Railway-hosted monitor that checks the site and API, records issues, writes Obsidian-compatible infrastructure notes, and posts a daily Slack report at 4:00 a.m. Eastern.
 
 It is intentionally conservative: it does **not** auto-merge, auto-deploy, or change production. It creates evidence, issues, reports, and improvement proposals so Codex or a human can fix the right thing with review.
@@ -72,7 +78,12 @@ Optional: create an OpenAI API key if you want AI council and workflow-factory s
 1. Open Railway.
 2. Create a new project.
 3. Choose **Deploy from GitHub repo**.
-4. Select this repo.
+4. Select or paste this repo:
+
+```text
+https://github.com/jbellsolutions/speakeragent-ops-agent
+```
+
 5. Railway will detect the Dockerfile and run the service.
 6. Add the environment variables below.
 7. Deploy.
@@ -224,4 +235,3 @@ Railway services are containers. This repo ships a Dockerfile, so Railway builds
 ## License
 
 MIT
-

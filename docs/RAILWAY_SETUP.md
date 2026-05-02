@@ -4,7 +4,12 @@
 
 1. Open Railway.
 2. Create a new project.
-3. Deploy from this GitHub repo.
+3. Deploy from this GitHub repo:
+
+```text
+https://github.com/jbellsolutions/speakeragent-ops-agent
+```
+
 4. Add environment variables from `.env.example`.
 5. Deploy the service.
 
@@ -69,4 +74,3 @@ Manual test:
 curl -X POST https://YOUR-RAILWAY-DOMAIN/run/daily \
   -H "Authorization: Bearer YOUR_ADMIN_TOKEN"
 ```
-
