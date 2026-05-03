@@ -10,6 +10,26 @@ Use one Jira project as the operational queue for SpeakerAgent. Recommended setu
 - Issue type: `Bug` for runtime failures, or `Task` if the project does not use bugs.
 - Labels: `speakeragent-ops`, `monitoring`.
 
+## Symphony-Style Statuses
+
+The recommended Jira board statuses are:
+
+```text
+To Do
+In Progress
+Human Review
+Ready to Merge
+Done
+```
+
+If the existing Jira board uses different names, keep the same meanings:
+
+- intake,
+- active work,
+- human review,
+- merge-ready,
+- complete.
+
 The agent deduplicates tickets by open issue title. When the same check fails again, it adds a comment to the existing open ticket instead of creating a duplicate.
 
 ## Railway Variables
@@ -50,3 +70,7 @@ GitHub remains the code layer:
 - optional Obsidian vault storage.
 
 Do not use Linear for this workflow. Do not use GitHub Issues unless Jira is unavailable and `GITHUB_ISSUES_REPO` has intentionally been configured as a fallback.
+
+## Workflow Contract
+
+The repo-owned contract for ticket workers is [`WORKFLOW.md`](../WORKFLOW.md). Keep Jira status names, proof requirements, and runner policy aligned with that file.

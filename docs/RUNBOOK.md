@@ -10,6 +10,16 @@
 6. Merge manually.
 7. Confirm the next uptime check passes.
 
+## If Codex Works A Jira Ticket
+
+1. Confirm the ticket is in `To Do`.
+2. Move it to `In Progress` when work starts.
+3. Require a plan comment before code changes.
+4. Require a proof packet before human review.
+5. Move it to `Human Review` when the PR and verification are ready.
+6. Move it to `Ready to Merge` only after human approval.
+7. Move it to `Done` only after merge and production verification when needed.
+
 ## If Slack Stops Posting
 
 1. Check `SLACK_WEBHOOK_URL`.

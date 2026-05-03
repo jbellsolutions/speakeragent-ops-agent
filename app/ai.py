@@ -13,7 +13,7 @@ AI council is not configured because `OPENAI_API_KEY` is missing.
 Default recommendations:
 
 - Fix any failed runtime, API, browser, or broken-link checks first.
-- Keep autonomous changes limited to issues and draft plans until the repo has reliable tests.
+- Keep autonomous changes limited to Jira tickets and draft plans until the repo has reliable tests.
 - Add missing smoke tests for signup, onboarding, dashboard, and lead approval.
 - Keep production deploys manual until rollback and verification are documented.
 

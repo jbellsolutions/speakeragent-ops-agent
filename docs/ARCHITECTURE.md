@@ -6,6 +6,8 @@ SpeakerAgent Ops Agent is a Railway-hosted monitor and reporting service.
 
 It is not the coding agent. It creates Jira tickets and evidence so Codex can safely do coding work through GitHub.
 
+The repo follows a Symphony-style control-plane pattern: Jira is the durable state machine, `WORKFLOW.md` is the repo-owned operating contract, GitHub is the code/PR layer, and Obsidian is the long-term memory layer.
+
 ## Components
 
 - FastAPI service for health, status, and manual trigger endpoints.
@@ -34,8 +36,19 @@ Durable state lives outside the Railway container:
 - Jira tickets for operational problems.
 - Obsidian Markdown notes in a GitHub repo for reports and memory.
 - Slack for daily human-readable summaries.
+- GitHub PRs for code changes.
 
 Railway local disk is treated as ephemeral.
+
+## Jira Workflow
+
+The expected Jira state flow is:
+
+```text
+To Do -> In Progress -> Human Review -> Ready to Merge -> Done
+```
+
+Railway creates or updates tickets. Codex workers move tickets through implementation and review handoff. Humans approve merge and production changes.
 
 ## Teams
 

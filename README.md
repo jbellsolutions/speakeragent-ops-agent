@@ -12,6 +12,34 @@ This repo gives Lester a safe Railway-hosted monitor that checks the site and AP
 
 It is intentionally conservative: it does **not** auto-merge, auto-deploy, or change production. It creates evidence, Jira tickets, reports, and improvement proposals so Codex or a human can fix the right thing with review.
 
+## Symphony-Style Jira Control Plane
+
+This repo follows the Symphony operating model from OpenAI and the [OpenAI Symphony walkthrough video](https://www.youtube.com/watch?v=M_AmPWmkpwA): manage work at the ticket level, keep the workflow in the repo, run each implementation in an isolated workspace, and require proof before human review.
+
+This adaptation is Jira-first:
+
+- Jira replaces Linear as the durable state machine.
+- Railway creates and updates operational Jira tickets.
+- Codex works from Jira tickets and opens GitHub PRs against the product repos.
+- Obsidian stores durable reports, architecture notes, and learning.
+- Slack receives daily and failure summaries.
+- Humans review proof packets and merge manually.
+
+```mermaid
+flowchart LR
+  A["Railway monitor"] --> B["Jira ticket"]
+  B --> C["Codex ticket worker"]
+  C --> D["Isolated workspace"]
+  D --> E["Tests and browser proof"]
+  E --> F["GitHub PR"]
+  F --> G["Human review"]
+  G --> H["Manual merge"]
+  E --> I["Obsidian notes"]
+  B --> J["Slack report"]
+```
+
+The repo-level workflow contract lives in [`WORKFLOW.md`](WORKFLOW.md). The full Jira adaptation is documented in [`docs/SYMPHONY_JIRA_GUIDE.md`](docs/SYMPHONY_JIRA_GUIDE.md).
+
 ## What It Checks
 
 - Site runtime and uptime.
@@ -215,7 +243,7 @@ This service cannot:
 
 For v1, use this Railway service plus Jira.
 
-Codex should be used to work the issues, create PRs, review diffs, and improve the product. The always-on service should not try to be the coding agent itself.
+Codex should be used to work Jira tickets, create PRs, review diffs, and improve the product. The always-on service should not try to be the coding agent itself.
 
 Cursor SDK is not included in v1. It may be useful later for isolated cloud PR workers, but only after the deterministic monitoring and Jira ticket loop has proven itself.
 
@@ -253,6 +281,8 @@ python -m app.cli daily
 - `app/github_client.py` - GitHub fallback issue creation and note file writes.
 - `app/ticketing.py` - ticket backend selection.
 - `app/obsidian.py` - Obsidian Markdown storage.
+- `WORKFLOW.md` - Symphony-style Jira operating contract for Codex workers.
+- `docs/SYMPHONY_JIRA_GUIDE.md` - video-guided Symphony adaptation for Jira.
 - `docs/JIRA_SETUP.md` - Jira project and token setup.
 - `docs/OBSIDIAN_BACKEND.md` - Obsidian vault backend setup.
 - `docs/` - setup, safety, and runbooks.

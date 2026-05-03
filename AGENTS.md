@@ -22,6 +22,7 @@ Run safely on Railway and monitor SpeakerAgent.ai without depending on Lester's 
 - Jira tickets are the handoff point for fixes.
 - GitHub is for repositories, branches, pull requests, and optional Obsidian vault storage.
 - Obsidian Markdown notes are the durable memory layer.
+- `WORKFLOW.md` is the Symphony-style Jira contract for Codex ticket work.
 - Cursor SDK is intentionally not part of v1.
 
 ## Verification

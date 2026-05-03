@@ -102,7 +102,7 @@ Severity: `{check.severity}`
 
 ## Safety
 
-This ops agent does not merge, deploy, or change production automatically. This issue is the handoff for Lester/Codex to inspect and fix.
+This ops agent does not merge, deploy, or change production automatically. This fallback GitHub issue is the handoff for Lester/Codex only when Jira is unavailable.
 """
 
 

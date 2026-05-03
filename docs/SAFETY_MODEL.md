@@ -8,6 +8,7 @@
 - Write Markdown reports to an Obsidian notes repo.
 - Post Slack reports.
 - Generate advisory recommendations.
+- Open GitHub PRs when a Codex worker is explicitly working a Jira ticket.
 
 ## Not Allowed
 
@@ -18,6 +19,7 @@
 - Change billing.
 - Auto-install plugins.
 - Auto-promote new skills into runtime behavior.
+- Mark Jira tickets `Done` without human approval and verification evidence.
 
 ## Failure Handling
 

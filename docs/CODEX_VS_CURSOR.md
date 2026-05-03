@@ -8,6 +8,8 @@ Use Codex to work Jira tickets and create reviewed GitHub PRs.
 
 Do not use Cursor SDK in v1.
 
+Use [`WORKFLOW.md`](../WORKFLOW.md) as the repo-owned Symphony-style ticket workflow for Codex workers.
+
 ## Why
 
 The always-on job needs reliable monitoring, durable state, Slack reports, and Jira ticket creation. Deterministic code is better for that than a coding agent loop.
