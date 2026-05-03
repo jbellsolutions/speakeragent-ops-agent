@@ -8,9 +8,9 @@ Public repo:
 https://github.com/jbellsolutions/speakeragent-ops-agent
 ```
 
-This repo gives Lester a safe Railway-hosted monitor that checks the site and API, records issues, writes Obsidian-compatible infrastructure notes, and posts a daily Slack report at 4:00 a.m. Eastern.
+This repo gives Lester a safe Railway-hosted monitor that checks the site and API, records Jira tickets, writes Obsidian-compatible infrastructure notes, and posts a daily Slack report at 4:00 a.m. Eastern.
 
-It is intentionally conservative: it does **not** auto-merge, auto-deploy, or change production. It creates evidence, issues, reports, and improvement proposals so Codex or a human can fix the right thing with review.
+It is intentionally conservative: it does **not** auto-merge, auto-deploy, or change production. It creates evidence, Jira tickets, reports, and improvement proposals so Codex or a human can fix the right thing with review.
 
 ## What It Checks
 
@@ -26,7 +26,7 @@ It is intentionally conservative: it does **not** auto-merge, auto-deploy, or ch
 
 - Slack alert when a runtime check fails.
 - Slack daily report every day at 4:00 a.m. Eastern.
-- GitHub issues for runtime failures.
+- Jira tickets for runtime failures.
 - Obsidian-compatible Markdown notes.
 - Optional OpenAI-powered council reports when `OPENAI_API_KEY` is configured.
 
@@ -40,7 +40,8 @@ Why:
 
 - Railway is the safe hosted environment, so the agent is not running on Lester's computer.
 - Deterministic uptime, link, and browser checks are more reliable than asking an AI if the site is up.
-- GitHub Issues are the control plane for fixes.
+- Jira is the control plane for fixes.
+- GitHub remains the code and PR layer.
 - Obsidian Markdown notes are the memory layer.
 - Cursor SDK can be reconsidered later, but it adds another paid runner, another API key, and another place for work to happen.
 
@@ -51,23 +52,35 @@ Why:
 You need:
 
 - This public repo for the ops agent.
-- A repo where issues should be created, usually the ops agent repo or the main product repo.
+- The SpeakerAgent frontend repo, when it is available.
+- The SpeakerAgent backend repo, when it is available.
 - A private Obsidian notes repo, recommended name: `speakeragent-ops-vault`.
 
 The Obsidian repo should be private if it may contain operational details.
 
-### 2. Create Required Tokens
+### 2. Create Jira, GitHub, And Slack Access
+
+Jira is where the agent files runtime tickets. Configure a Jira project for operational work, then use a Jira API token for the Railway service.
+
+Required Jira values:
+
+- Jira base URL, for example `https://example.atlassian.net`.
+- Jira account email.
+- Jira API token.
+- Jira project key, for example `SA`.
+- Jira issue type, usually `Bug` or `Task`.
 
 Create a GitHub fine-grained token with access to:
 
-- The issue repo.
 - The Obsidian notes repo.
+- The frontend/backend repos later, when Codex starts opening PRs.
 
 Required permissions:
 
-- Issues: read/write.
 - Contents: read/write.
 - Metadata: read.
+
+GitHub Issues are not the normal ticket system for this repo anymore. `GITHUB_ISSUES_REPO` remains as a fallback only if Jira is not configured.
 
 Create a Slack incoming webhook for the channel where daily reports should land.
 
@@ -98,8 +111,18 @@ Minimum useful production setup:
 TARGET_SITE_URL=https://speakeragent.ai/
 TARGET_API_URL=
 SLACK_WEBHOOK_URL=https://hooks.slack.com/services/...
+JIRA_BASE_URL=https://example.atlassian.net
+JIRA_EMAIL=ops@example.com
+JIRA_API_TOKEN=...
+JIRA_PROJECT_KEY=SA
+JIRA_ISSUE_TYPE=Bug
+JIRA_LABELS=speakeragent-ops,monitoring
+JIRA_COMPONENT=
+JIRA_PRIORITY_CRITICAL=
+JIRA_PRIORITY_WARNING=
+JIRA_PRIORITY_INFO=
 GITHUB_TOKEN=github_pat_...
-GITHUB_ISSUES_REPO=jbellsolutions/speakeragent-ops-agent
+GITHUB_ISSUES_REPO=
 OBSIDIAN_GITHUB_REPO=jbellsolutions/speakeragent-ops-vault
 OBSIDIAN_GITHUB_BRANCH=main
 OBSIDIAN_VAULT_PATH=SpeakerAgent Ops
@@ -115,7 +138,7 @@ MAX_LINKS=80
 REQUEST_TIMEOUT_SECONDS=20
 ```
 
-Start with `DRY_RUN=true`. That lets the service check the site and write local logs without creating GitHub issues or Obsidian commits. After `/status` looks correct, set:
+Start with `DRY_RUN=true`. That lets the service check the site and write local logs without creating Jira tickets or Obsidian commits. After `/status` looks correct, set:
 
 ```bash
 DRY_RUN=false
@@ -164,6 +187,8 @@ The agent writes notes under:
 SpeakerAgent Ops/YYYY-MM-DD/
 ```
 
+The recommended vault structure is documented in `docs/OBSIDIAN_BACKEND.md`.
+
 ## Safety Model
 
 This service can:
@@ -171,7 +196,7 @@ This service can:
 - Check runtime health.
 - Check links.
 - Run a headless browser smoke test.
-- Create GitHub issues.
+- Create Jira tickets.
 - Write Markdown notes.
 - Post Slack messages.
 - Generate suggestions.
@@ -188,11 +213,11 @@ This service cannot:
 
 ## Codex, Cursor, Or A Different Harness?
 
-For v1, use this Railway service plus GitHub Issues.
+For v1, use this Railway service plus Jira.
 
 Codex should be used to work the issues, create PRs, review diffs, and improve the product. The always-on service should not try to be the coding agent itself.
 
-Cursor SDK is not included in v1. It may be useful later for isolated cloud PR workers, but only after the deterministic monitoring and GitHub issue loop has proven itself.
+Cursor SDK is not included in v1. It may be useful later for isolated cloud PR workers, but only after the deterministic monitoring and Jira ticket loop has proven itself.
 
 ## Local Development
 
@@ -224,8 +249,12 @@ python -m app.cli daily
 - `app/scheduler.py` - uptime and daily scheduling loops.
 - `app/checks.py` - HTTP, link, and browser checks.
 - `app/runner.py` - orchestration for uptime and daily runs.
-- `app/github_client.py` - GitHub issue and note file writes.
+- `app/jira_client.py` - Jira ticket creation and deduplication.
+- `app/github_client.py` - GitHub fallback issue creation and note file writes.
+- `app/ticketing.py` - ticket backend selection.
 - `app/obsidian.py` - Obsidian Markdown storage.
+- `docs/JIRA_SETUP.md` - Jira project and token setup.
+- `docs/OBSIDIAN_BACKEND.md` - Obsidian vault backend setup.
 - `docs/` - setup, safety, and runbooks.
 
 ## Railway Notes

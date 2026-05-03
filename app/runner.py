@@ -5,18 +5,18 @@ from datetime import UTC, datetime
 from .ai import generate_council_report, generate_skill_factory_report
 from .checks import run_runtime_checks
 from .config import Settings
-from .github_client import sync_failure_issues
 from .models import RunReport
 from .obsidian import write_note
 from .reports import build_daily_markdown, build_runtime_markdown, slack_summary
 from .slack import post_slack
+from .ticketing import sync_failure_tickets
 
 
 async def run_uptime(settings: Settings) -> RunReport:
     started = datetime.now(UTC)
     checks = await run_runtime_checks(settings)
     runtime_markdown = build_runtime_markdown(settings, checks, started, "SpeakerAgent Runtime Report")
-    issue_urls = await sync_failure_issues(
+    issue_urls = await sync_failure_tickets(
         settings,
         [check for check in checks if not check.ok],
         runtime_markdown,
@@ -42,7 +42,7 @@ async def run_daily(settings: Settings) -> RunReport:
     runtime_markdown = build_runtime_markdown(settings, checks, started, "SpeakerAgent Daily Runtime Report")
     council = await generate_council_report(settings, runtime_markdown)
     improvements = await generate_skill_factory_report(settings, runtime_markdown)
-    issue_urls = await sync_failure_issues(
+    issue_urls = await sync_failure_tickets(
         settings,
         [check for check in checks if not check.ok],
         runtime_markdown,
@@ -62,4 +62,3 @@ async def run_daily(settings: Settings) -> RunReport:
     report.notes_paths.append(await write_note(settings, "daily-engineering-report", daily_markdown, started))
     await post_slack(settings, slack_summary(report))
     return report
-

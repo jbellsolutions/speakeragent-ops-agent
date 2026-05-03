@@ -4,7 +4,7 @@
 
 SpeakerAgent Ops Agent is a Railway-hosted monitor and reporting service.
 
-It is not the coding agent. It creates issues and evidence so Codex can safely do coding work through GitHub.
+It is not the coding agent. It creates Jira tickets and evidence so Codex can safely do coding work through GitHub.
 
 ## Components
 
@@ -13,7 +13,8 @@ It is not the coding agent. It creates issues and evidence so Codex can safely d
 - HTTP checks for site/API runtime.
 - Link checker for broken public links.
 - Playwright browser smoke test for page load, console errors, page errors, and failed requests.
-- GitHub issue writer for failures.
+- Jira ticket writer for failures.
+- GitHub issue writer as a fallback only when Jira is not configured.
 - GitHub-backed Obsidian note writer for reports and memory.
 - Slack webhook delivery.
 - Optional OpenAI council reports.
@@ -30,7 +31,7 @@ Cursor SDK is a runner, not the control plane. Adding it now would add an extra 
 
 Durable state lives outside the Railway container:
 
-- GitHub Issues for operational problems.
+- Jira tickets for operational problems.
 - Obsidian Markdown notes in a GitHub repo for reports and memory.
 - Slack for daily human-readable summaries.
 
@@ -44,5 +45,4 @@ The service runs three logical teams:
 - Council team: daily subjective product/engineering suggestions.
 - Skill factory team: daily workflow, skill, and test improvement proposals.
 
-Only the runtime team can create operational failure issues automatically. Council and skill factory output is advisory.
-
+Only the runtime team can create operational failure tickets automatically. Council and skill factory output is advisory.

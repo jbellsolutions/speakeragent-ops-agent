@@ -50,7 +50,7 @@ def build_daily_markdown(report: RunReport) -> str:
     if report.improvements:
         lines.extend(["", "## Skill And Workflow Factory", "", report.improvements])
     if report.issue_urls:
-        lines.extend(["", "## GitHub Issues", ""])
+        lines.extend(["", "## Tickets", ""])
         lines.extend(f"- {url}" for url in report.issue_urls)
     if report.notes_paths:
         lines.extend(["", "## Obsidian Notes", ""])
@@ -68,10 +68,9 @@ def slack_summary(report: RunReport) -> str:
 Runtime failures:
 {failures or "- None"}
 
-Issues:
+Tickets:
 {issues or "- None created"}
 
 Notes:
 {notes or "- None written"}
 """
-

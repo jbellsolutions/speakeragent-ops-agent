@@ -68,7 +68,7 @@ Review this daily ops report and return:
 
 Rules:
 - Do not recommend autonomous deploys.
-- Prefer GitHub issues, draft PRs, and Obsidian notes.
+- Prefer Jira tickets, draft PRs, and Obsidian notes.
 - Keep the report concise and actionable.
 
 Report:
@@ -90,4 +90,3 @@ Report:
 {report_markdown}
 """
     return await ask_openai(settings, prompt)
-

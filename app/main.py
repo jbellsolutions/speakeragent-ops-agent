@@ -43,6 +43,7 @@ async def status() -> dict[str, object]:
     return {
         "scheduler": settings.run_scheduler,
         "dry_run": settings.dry_run,
+        "ticket_backend": settings.ticket_backend,
         "target_site_url": settings.target_site_url,
         "target_api_url": settings.target_api_url or None,
         "last_report": None
@@ -69,7 +70,6 @@ async def run_daily_now() -> dict[str, object]:
     return {
         "ok": report.ok,
         "markdown": build_daily_markdown(report),
-        "issues": report.issue_urls,
+        "tickets": report.issue_urls,
         "notes": report.notes_paths,
     }
-

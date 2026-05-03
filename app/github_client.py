@@ -106,12 +106,12 @@ This ops agent does not merge, deploy, or change production automatically. This 
 """
 
 
-async def sync_failure_issues(
+async def sync_failure_github_issues(
     settings: Settings,
     failures: list[CheckResult],
     report_markdown: str,
 ) -> list[str]:
-    if not settings.can_write_github:
+    if not settings.can_write_github_issues:
         return []
     client = GitHubClient(settings.github_token)
     urls: list[str] = []
@@ -126,4 +126,3 @@ async def sync_failure_issues(
         )
         urls.append(url)
     return urls
-

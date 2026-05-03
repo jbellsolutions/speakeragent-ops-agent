@@ -33,8 +33,11 @@ Railway will build the Dockerfile and use `/healthz` for health checks.
 ```bash
 TARGET_SITE_URL=https://speakeragent.ai/
 SLACK_WEBHOOK_URL=
+JIRA_BASE_URL=
+JIRA_EMAIL=
+JIRA_API_TOKEN=
+JIRA_PROJECT_KEY=
 GITHUB_TOKEN=
-GITHUB_ISSUES_REPO=
 ADMIN_TOKEN=
 ```
 
@@ -46,6 +49,8 @@ OPENAI_API_KEY=
 TARGET_API_URL=
 DRY_RUN=false
 ```
+
+`GITHUB_ISSUES_REPO` is optional fallback ticketing. Leave it blank when Jira is configured.
 
 ## First Launch
 

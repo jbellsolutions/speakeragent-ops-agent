@@ -4,7 +4,7 @@
 
 - Read public site and API endpoints.
 - Run headless browser smoke checks.
-- Create or update GitHub issues.
+- Create or update Jira tickets.
 - Write Markdown reports to an Obsidian notes repo.
 - Post Slack reports.
 - Generate advisory recommendations.
@@ -21,7 +21,7 @@
 
 ## Failure Handling
 
-Runtime failures create GitHub issues when `DRY_RUN=false`.
+Runtime failures create Jira tickets when `DRY_RUN=false` and Jira is configured. GitHub Issues are fallback ticketing only.
 
 Daily subjective recommendations are written to notes and Slack only. They do not become code or production changes automatically.
 
@@ -29,11 +29,10 @@ Daily subjective recommendations are written to notes and Slack only. They do no
 
 Do not put secrets in:
 
-- GitHub issue bodies.
+- Jira ticket bodies.
 - Slack messages.
 - Obsidian notes.
 - Logs.
 - Screenshots.
 
 Secrets belong only in Railway environment variables.
-

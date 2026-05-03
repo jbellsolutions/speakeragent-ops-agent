@@ -12,14 +12,15 @@ Run safely on Railway and monitor SpeakerAgent.ai without depending on Lester's 
 - Never auto-deploy.
 - Never modify production environment variables.
 - Never send outreach.
-- Never store secrets in notes, issues, reports, or logs.
-- Prefer GitHub issues, Slack reports, and Obsidian notes over direct code changes.
+- Never store secrets in notes, Jira tickets, reports, or logs.
+- Prefer Jira tickets, Slack reports, and Obsidian notes over direct code changes.
 
 ## Runtime Rules
 
 - Keep checks deterministic where possible.
 - AI council output is advisory only.
-- GitHub Issues are the handoff point for fixes.
+- Jira tickets are the handoff point for fixes.
+- GitHub is for repositories, branches, pull requests, and optional Obsidian vault storage.
 - Obsidian Markdown notes are the durable memory layer.
 - Cursor SDK is intentionally not part of v1.
 
@@ -37,4 +38,3 @@ When editing Railway config, also verify:
 ```bash
 python -m json.tool railway.json
 ```
-
